@@ -21,8 +21,8 @@ func GetRandomKey() int {
 	return ret
 }
 
-func returnShortUrl(url string) int {
+func returnShortUrl(url string) string {
 	tempKey := GetRandomKey()
-	client.Set(tempKey, url)
-	return tempKey
+	client.Set(string(tempKey), url, 0)
+	return string(tempKey)
 }
