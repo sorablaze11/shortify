@@ -3,12 +3,15 @@ package kgs
 
 import (
 	"github.com/go-redis/redis"
+	"fmt"
+	"strconv"
 )
 
 var client *redis.Client
 var key int
 
 func Init() {
+	key = 0
 	client = redis.NewClient(&redis.Options{
         Addr : "localhost:6379",
     })
@@ -21,8 +24,13 @@ func GetRandomKey() int {
 	return ret
 }
 
-func returnShortUrl(url string) string {
-	tempKey := GetRandomKey()
-	client.Set(string(tempKey), url, 0)
-	return string(tempKey)
+func ReturnShortUrl(url string) string {
+	tempKey := strconv.Itoa(GetRandomKey())
+	client.Set(tempKey, url, 0)
+	fmt.Println(tempKey)
+	return tempKey
+}
+
+func GetUrl(shortUrl string) (string, error) {
+	return client.Get(shortUrl).Result()
 }
