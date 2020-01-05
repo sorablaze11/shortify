@@ -5,7 +5,7 @@ import (
 	// "github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"html/template"
-	"./kgs"
+	"github.com/sorablaze11/shortify/kgs"
 	"fmt"
 )
 
