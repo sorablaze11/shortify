@@ -3,7 +3,7 @@ package kgs
 
 import (
 	"github.com/go-redis/redis"
-	"fmt"
+	// "fmt"
 	"strconv"
 )
 
@@ -27,7 +27,7 @@ func GetRandomKey() int {
 func ReturnShortUrl(url string) string {
 	tempKey := strconv.Itoa(GetRandomKey())
 	client.Set(tempKey, url, 0)
-	fmt.Println(tempKey)
+	// fmt.Println(tempKey)
 	return tempKey
 }
 

@@ -5,8 +5,9 @@ import (
 	// "github.com/go-redis/redis"
 	"github.com/gorilla/mux"
 	"html/template"
-	"./kgs"
-	"fmt"
+	"strings"
+	"github.com/sorablaze11/shortify/kgs"
+	// "fmt"
 )
 
 var templates *template.Template
@@ -24,13 +25,18 @@ func main(){
 
 func shortUrlGet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	fmt.Println(vars["shortUrl"])
+	// fmt.Println(vars["shortUrl"])
 	redirecUrl, err := kgs.GetUrl(vars["shortUrl"])
-	fmt.Println(redirecUrl)
 	if err != nil {
 		templates.ExecuteTemplate(w, "error.html", nil)
 	}else {
-		http.Redirect(w, r, "https://" + redirecUrl, 301)
+		hasHttps := strings.HasPrefix(redirecUrl, "https://")
+		hasHttps = hasHttps || strings.HasPrefix(redirecUrl, "http://")
+		if !hasHttps {
+			redirecUrl = "https://" + redirecUrl
+		}
+		// fmt.Println(redirecUrl)
+		http.Redirect(w, r, redirecUrl, 301)
 	}
 	return
 }
@@ -43,9 +49,9 @@ func shortifyGet(w http.ResponseWriter, r *http.Request) {
 func shortifyPost(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	url := r.PostForm.Get("url")
-	fmt.Println(url)
+	// fmt.Println(url)
 	shortUrl := kgs.ReturnShortUrl(url);
-	fmt.Println(shortUrl)
+	// fmt.Println(shortUrl)
 	w.Write([]byte(shortUrl))
 	return
 }
