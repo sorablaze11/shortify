@@ -6,3 +6,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Url shortner service.
+A URL Shortner service written in GO similar to goo.gl or tinyurl. This is a project done to learn new thing.
+
+Learned basics of Go, TravisCI and Redis.
