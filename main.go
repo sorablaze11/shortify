@@ -16,14 +16,14 @@ func main(){
 	kgs.Init()
 	r := mux.NewRouter()
 	templates = template.Must(template.ParseGlob("templates/*.html"))
-	r.HandleFunc("/", shortifyGet).Methods("GET")
-	r.HandleFunc("/{shortUrl}", shortUrlGet).Methods("GET")
-	r.HandleFunc("/", shortifyPost).Methods("POST")
+	r.HandleFunc("/", ShortifyGet).Methods("GET")
+	r.HandleFunc("/{shortUrl}", ShortUrlGet).Methods("GET")
+	r.HandleFunc("/", ShortifyPost).Methods("POST")
 	http.Handle("/", r)
 	http.ListenAndServe(":8080", nil)
 }
 
-func shortUrlGet(w http.ResponseWriter, r *http.Request) {
+func ShortUrlGet(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	// fmt.Println(vars["shortUrl"])
 	redirecUrl, err := kgs.GetUrl(vars["shortUrl"])
@@ -41,12 +41,12 @@ func shortUrlGet(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-func shortifyGet(w http.ResponseWriter, r *http.Request) {
+func ShortifyGet(w http.ResponseWriter, r *http.Request) {
 	templates.ExecuteTemplate(w, "index.html", nil)
 	return
 }
 
-func shortifyPost(w http.ResponseWriter, r *http.Request) {
+func ShortifyPost(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	url := r.PostForm.Get("url")
 	// fmt.Println(url)
